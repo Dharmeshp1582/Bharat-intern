@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Tracker Web App</title>
+    <style>
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            margin:0;
+        }
+        h1,h2{
+            text-align: center;
+        }
+        .input-section{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+        }
+        .input-section label{
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .input-section input[type="number"], .input-section input[type="date"]{
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .input-section button{
+            padding: 5px 10px;
+            background-color: rgb(238, 9, 9);
+            color:white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .expenses-list{
+            margin: 20px;
+            
+        }
+        
+        table{
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th,td{
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        
+        }
+        th{
+            background-color: rgb(215, 222, 38);
+            color: rgb(12, 1, 1);
+        }
+        tfoot td{
+            font-weight: bold;
+        }
+        .delete-btn{
+            padding: 5px 10px;
+            background-color: rgb(238, 9, 9);
+            color:white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1> Money Tracker Web App</h1>
+    <div class="input-section">
+        <label for="category-select">Category:</label>
+        <select id="category-select">
+            <option value="College Fee">College Fee</option>
+            <option value="Rent">Rent</option>
+            <option value="Transport">Transport</option>
+            <option value="Food">Food</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Cool Drinks">Cool Drinks</option>
+        </select>
+        <label for="amount-input">Amount:</label>
+        <input type="number" id="amount-input">
+        <label for="date-input">Date:</label>
+        <input type="date" id="date-input">
+        <button id="add-btn">Add</button>
+    </div>
+    <div class="expenses-list">
+        <h2>Expenses List</h2>
+        <table>
+            <thead>
+                
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Delete</th>
+                    </tr>
+                
+            </thead>
+            <tbody id="expense-table-body">
+
+            </tbody>
+            <tfoot>
+                <td>Total:</td>
+                <td id="total-amount"></td>
+                <td></td>
+                <td></td>
+            </tfoot>
+        </table>
+    </div>
+    <script>
+let expenses =[];
+let totalAmount = 0;
+
+const categorySelect = document.getElementById('category-select')
+const amountInput = document.getElementById('amount-input')
+const dateInput = document.getElementById('date-input')
+const addBtn = document.getElementById('add-btn')
+const expenseTableBody = document.getElementById('expense-table-body')
+const totalAmountCell = document.getElementById('total-amount')
+
+addBtn.addEventListener('click', function(){
+    const category = categorySelect.value;
+    const amount = Number(amountInput.value);
+    const date= dateInput.value;
+
+    if(category === ''){
+        alert('please select a category');
+        return;
+    }
+    if(isNaN(amount) || amount <= 0){
+        alert('please enter a valid amount');
+        return;
+    }
+    if(date ===''){
+        alert('please select a date');
+        return;
+    }
+    expenses.push({category,amount,date})
+
+    totalAmount += amount;
+    totalAmountCell.textContent=totalAmount;
+
+    const newRow = expenseTableBody.insertRow();
+
+    const categoryCell = newRow.insertCell();
+    const AmountCell = newRow.insertCell();
+    const dateCell = newRow.insertCell();
+    const deleteCell = newRow.insertCell();
+
+    const deleteBtn = document.createElement('button');
+
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.addEventListener('click', function(){
+        expenses.splice(expenses.indexOf(expense),1);
+
+        totalAmount -= expense.amount;
+        totalAmountCell.textContent = totalAmount;
+
+        expenseTableBody.removeChild(newRow);
+    })
+    const expense= expenses[expenses.length - 1];
+    categoryCell.textContent=expense.category;
+    AmountCell.textContent=expense.amount;
+    dateCell.textContent=expense.date;
+    deleteCell.appendChild(deleteBtn);
+
+});
+for(const exepense of expenses){
+    totalAmount += amount;
+    totalAmountCell.textContent=totalAmount;
+
+    const newRow = expenseTableBody.insertRow();
+
+    const categoryCell = newRow.insertCell();
+    const AmountCell = newRow.insertCell();
+    const dateCell = newRow.insertCell();
+    const deleteCell = newRow.insertCell();
+
+    const deleteBtn = document.createElement('button');
+
+    deleteBtn.textContent = 'Delete';
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.addEventListener('click', function(){
+        expenses.splioce(expenses.indexOf(expense),1);
+
+        totalAmount -= expense.amount;
+        totalAmountCell.textContent = totalAmount;
+
+        expenseTableBody.removeChild(newRow);
+    })
+    const expense= expenses[expenses.length - 1];
+    categoryCell.textContent=expense.category;
+    AmountCell.textContent=expense.amount;
+    dateCell.textContent=expense.date;
+    deleteCell.appendChild(deleteBtn);
+}
+    </script>
+</body>
+</html>
+ 
